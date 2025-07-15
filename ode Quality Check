@@ -1,0 +1,33 @@
+name: Code Quality Check
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+  pull_request:
+
+jobs:
+  lint:
+    name: Run Lint and Static Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install flake8 black
+
+      - name: Run Black (code formatting)
+        run: black --check .
+
+      - name: Run Flake8 (Python linting)
+        run: flake8 .
